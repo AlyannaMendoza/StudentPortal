@@ -1,0 +1,82 @@
+﻿@model PRACTICE_WEB.Models.StudentPaginationViewModel
+
+@{
+    ViewData["Title"] = "Student List";
+}
+
+<br />
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <h3 class="panel-title text-center">List of Students</h3>
+    </div>
+    <div class="panel-body">
+        <div class="table-responsive">
+            <table class="table table-striped table-hover ">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>FIRST NAME</th>
+                        <th>MIDDLE NAME</th>
+                        <th>LAST NAME</th>
+                        <th>EMAIL</th>
+                        <th>PHONE</th>
+                        <th>HOUSE NUMBER</th>
+                        <th>STREET</th>
+                        <th>CITY</th>
+                        <th>PROVINCE</th>
+                        <th>ACTIVE</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var student in Model.Students)
+                    {
+                        <tr>
+                            <td class="mt-2">@student.Id</td>
+                            <td class="mt-2">@student.FirstName</td>
+                            <td class="mt-2">@student.MiddleName</td>
+                            <td class="mt-2">@student.LastName</td>
+                            <td class="mt-2">@student.Email</td>
+                            <td class="mt-2">@student.Phone</td>
+                            <td class="mt-2">@student.HouseNumber</td>
+                            <td class="mt-2">@student.Street</td>
+                            <td class="mt-2">@student.City </td>
+                            <td class="mt-2">@student.Province</td>
+                            <td class="mt-2">@(student.IsActive ? "Yes" : "No") </td>
+                            <td>
+                                <div class="btn-group">
+                                    <a href="#" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                        <i class="bi bi-list"></i>
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <li><a asp-action="Details" asp-route-id="@student.Id">Details</a></li>
+                                        <li><a asp-action="Edit" asp-route-id="@student.Id">Edit</a></li>
+                                        <li><a asp-action="Delete" asp-route-id="@student.Id">Delete</a></li>
+                                    </ul>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <ul class="pagination pagination-sm">
+            <li class="@(Model.CurrentPage == 1 ? "disabled" : "")">
+                <a href="@Url.Action("Index", new { page = Model.CurrentPage - 1 })">&laquo;</a>
+            </li>
+            @for (int i = 1; i <= Model.TotalPages; i++)
+            {
+                <li class="@(Model.CurrentPage == i ? "active" : "")">
+                    <a href="@Url.Action("Index", new { page = i })">@i</a>
+                </li>
+            }
+            <li class="@(Model.CurrentPage == Model.TotalPages ? "disabled" : "")">
+                <a href="@Url.Action("Index", new { page = Model.CurrentPage + 1 })">&raquo;</a>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<p>
+    <a asp-action="Create" class="btn btn-success pull-right">Add Student</a>
+</p>
+<br /> 
